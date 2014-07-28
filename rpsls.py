@@ -20,7 +20,14 @@ class player():
     win_count = 0
     lose_count = 0
     tie_count = 0
-    
+    total_games = 0
+    win_percentage = 0.00
+    def getpercentage(self):
+        self.total_games = self.win_count+self.lose_count+self.tie_count
+        if self.total_games !=0:
+            self.win_percentage  = (self.win_count/(self.total_games))*100
+        else:
+            self.win_percentage = 0.00
     def makechoice(self,choice):
         self.hand = choice
     def youwin(self):
@@ -36,7 +43,7 @@ class player():
         self.hand = ""
         self.win = False
     def showrecord(self):
-        print("Your record: %d-%d-%d"%(self.win_count,self.lose_count,self.tie_count))
+        print("Your record: %d-%d-%d \nWin Percentage: %.2f"%(self.win_count,self.lose_count,self.tie_count,self.win_percentage))
 human = player()
 computer = player()
 
@@ -56,11 +63,6 @@ def gameloop():
         else:
             print('Not a valid input! Try again...')
                         
-                        
-
-    
-
-
 
     print("You picked: %s \nComputer picked: %s" %(human.hand,computer.hand))
 
@@ -90,6 +92,7 @@ def gameloop():
                 if rules[x][2] == human.hand and rules[x][0] == computer.hand:
                     print(" ".join(rules[x]))
             print("You lose!")
+    human.getpercentage()
     human.showrecord()
     playagain = input("Do you want to play again? (Y/N): ").lower()
 
@@ -97,6 +100,10 @@ def gameloop():
         human.reset()
         computer.reset()
         gameloop()
+    else:
+        print(("Games Played: %d "%human.total_games))
+        human.showrecord()
+        quit()
 gameloop()
 
 
